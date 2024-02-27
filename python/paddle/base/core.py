@@ -15,6 +15,7 @@
 import os
 import platform
 import site
+import shlex
 import sys
 import warnings
 
@@ -195,6 +196,8 @@ def run_shell_command(cmd):
 
 def get_dso_path(core_so, dso_name):
     if core_so and dso_name:
+        core_so = shlex.quote(core_so)
+        dso_name = shlex.quote(dso_name)
         return run_shell_command(
             f"ldd {core_so}|grep {dso_name}|awk '{{print $3}}'"
         )
